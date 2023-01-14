@@ -6,12 +6,17 @@ const helpers_1 = require("./helpers");
 function deepClone(obj) {
     let copy;
     // Handle the 3 simple types, and null or undefined
-    if (null == obj || 'object' != typeof obj)
+    if (obj === null || typeof obj !== 'object')
         return obj;
     // Handle Date
     if (obj instanceof Date) {
         copy = new Date();
         copy.setTime(obj.getTime());
+        return copy;
+    }
+    // Handle Function
+    if (typeof obj === 'function') {
+        copy = obj.bind({});
         return copy;
     }
     // Handle Array
@@ -31,10 +36,12 @@ function deepClone(obj) {
         }
         return copy;
     }
-    throw new Error("Unable to copy obj! Its type isn't supported.");
 }
 exports.deepClone = deepClone;
 function getPathValue(obj, path) {
+    if (!obj) {
+        return undefined;
+    }
     const parts = path.split('.');
     let current = obj;
     for (let i = 0; i < parts.length; i++) {
@@ -47,6 +54,8 @@ function getPathValue(obj, path) {
 }
 exports.getPathValue = getPathValue;
 function setPathValue(obj, path, value) {
+    if (!obj)
+        return undefined;
     const parts = path.split('.');
     let current = obj;
     for (let i = 0; i < parts.length - 1; i++) {
@@ -56,53 +65,93 @@ function setPathValue(obj, path, value) {
         current = current[parts[i]];
     }
     current[parts[parts.length - 1]] = value;
+    return obj;
 }
 exports.setPathValue = setPathValue;
 function removePath(obj, path) {
+    if (!obj) {
+        return undefined;
+    }
     const parts = path.split('.');
     let current = obj;
     for (let i = 0; i < parts.length - 1; i++) {
         if (current[parts[i]] === undefined) {
-            return;
+            return obj;
         }
         current = current[parts[i]];
     }
     delete current[parts[parts.length - 1]];
+    return obj;
 }
 exports.removePath = removePath;
 function renameProperties(obj, renameMap) {
+    if (obj === undefined ||
+        obj === null ||
+        typeof obj !== 'object' ||
+        Object.prototype.toString.call(obj) !== '[object Object]') {
+        return obj;
+    }
+    const newObj = Object.assign({}, obj);
     for (const oldName in renameMap) {
-        if (renameMap.hasOwnProperty(oldName)) {
-            if (obj.hasOwnProperty(oldName)) {
-                obj[renameMap[oldName]] = obj[oldName];
-                delete obj[oldName];
-            }
+        if (renameMap.hasOwnProperty(oldName) &&
+            newObj.hasOwnProperty(oldName) &&
+            oldName !== renameMap[oldName]) {
+            newObj[renameMap[oldName]] = newObj[oldName];
+            delete newObj[oldName];
         }
     }
+    return newObj;
 }
 exports.renameProperties = renameProperties;
 function renameProperty(obj, oldName, newName) {
-    if (obj.hasOwnProperty(oldName)) {
+    if (obj === undefined ||
+        obj === null ||
+        typeof obj !== 'object' ||
+        Object.prototype.toString.call(obj) !== '[object Object]') {
+        return obj;
+    }
+    if (obj.hasOwnProperty(oldName) && oldName !== newName) {
         obj[newName] = obj[oldName];
         delete obj[oldName];
     }
+    return obj;
 }
 exports.renameProperty = renameProperty;
 function transformProperties(obj, transformFn) {
+    if (obj === undefined ||
+        obj === null ||
+        typeof obj !== 'object' ||
+        Object.prototype.toString.call(obj) !== '[object Object]') {
+        return obj;
+    }
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
             obj[key] = transformFn(obj[key]);
         }
     }
+    return obj;
 }
 exports.transformProperties = transformProperties;
 function transformProperty(obj, property, transformFn) {
+    if (obj === undefined ||
+        obj === null ||
+        typeof obj !== 'object' ||
+        Object.prototype.toString.call(obj) !== '[object Object]') {
+        return obj;
+    }
     if (obj.hasOwnProperty(property)) {
         obj[property] = transformFn(obj[property]);
     }
+    return obj;
 }
 exports.transformProperty = transformProperty;
 function extractProperties(obj, properties) {
+    if (obj === undefined ||
+        obj === null ||
+        typeof obj !== 'object' ||
+        Object.prototype.toString.call(obj) !== '[object Object]') {
+        return obj;
+    }
     const extracted = {};
     properties.forEach((property) => {
         if (obj.hasOwnProperty(property)) {
@@ -113,28 +162,54 @@ function extractProperties(obj, properties) {
 }
 exports.extractProperties = extractProperties;
 function extractProperty(obj, property) {
+    if (obj === undefined ||
+        obj === null ||
+        typeof obj !== 'object' ||
+        Object.prototype.toString.call(obj) !== '[object Object]') {
+        return obj;
+    }
     if (obj.hasOwnProperty(property)) {
         const extracted = obj[property];
         delete obj[property];
         return extracted;
     }
+    return undefined;
 }
 exports.extractProperty = extractProperty;
 function defaults(obj, defaultValues) {
+    if (obj === undefined ||
+        obj === null ||
+        typeof obj !== 'object' ||
+        Object.prototype.toString.call(obj) !== '[object Object]') {
+        return obj;
+    }
     for (const key in defaultValues) {
         if (defaultValues.hasOwnProperty(key) && !obj.hasOwnProperty(key)) {
             obj[key] = defaultValues[key];
         }
     }
+    return obj;
 }
 exports.defaults = defaults;
 function cleanObject(obj) {
+    if (obj === undefined) {
+        return undefined;
+    }
+    if (obj === null ||
+        typeof obj !== 'object' ||
+        Object.prototype.toString.call(obj) !== '[object Object]') {
+        return {};
+    }
     for (const key in obj) {
         if (obj.hasOwnProperty(key) &&
             (obj[key] === undefined || obj[key] === null)) {
             delete obj[key];
         }
     }
+    if (Object.keys(obj).length === 0) {
+        return {};
+    }
+    return obj;
 }
 exports.cleanObject = cleanObject;
 function transformKeys(obj, transformFn) {

@@ -1,15 +1,17 @@
 export declare function deepClone(obj: any): any;
 export declare function getPathValue(obj: any, path: string): any;
-export declare function setPathValue(obj: any, path: string, value: any): void;
-export declare function removePath(obj: any, path: string): void;
-export declare function renameProperties(obj: any, renameMap: any): void;
-export declare function renameProperty(obj: any, oldName: string, newName: string): void;
-export declare function transformProperties(obj: any, transformFn: (value: any) => any): void;
-export declare function transformProperty(obj: any, property: string, transformFn: (value: any) => any): void;
+export declare function setPathValue(obj: any, path: string, value: any): any;
+export declare function removePath(obj: any, path: string): any;
+export declare function renameProperties(obj: any, renameMap: {
+    [oldName: string]: string;
+}): any;
+export declare function renameProperty(obj: any, oldName: string, newName: string): any;
+export declare function transformProperties(obj: any, transformFn: (value: any) => any): any;
+export declare function transformProperty(obj: any, property: string, transformFn: (value: any) => any): any;
 export declare function extractProperties(obj: any, properties: string[]): any;
 export declare function extractProperty(obj: any, property: string): any;
-export declare function defaults(obj: any, defaultValues: any): void;
-export declare function cleanObject(obj: any): void;
+export declare function defaults(obj: any, defaultValues: any): any;
+export declare function cleanObject(obj: any): any;
 export declare function transformKeys(obj: any, transformFn: (key: string) => string): any;
 export declare function transformKey(obj: any, key: string, transformFn: (key: string) => string): any;
 export declare function groupBy(obj: any, groupFn: (value: any) => any): any;
