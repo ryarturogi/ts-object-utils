@@ -1,0 +1,43 @@
+{
+  "name": "ts-object-utils",
+  "version": "1.0.0",
+  "description": "Powerful and versatile library for working with objects in TypeScript that provides a wide range of utility functions for deep cloning, property manipulation, filtering, mapping and more",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "commonjs",
+  "repository": "https://github.com/ryarturogi/ts-object-utils",
+  "publishConfig": {
+    "@ryarturogi:registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "test": "exit 0",
+    "jest": "jest",
+    "prepublishOnly": "tsc -p ./ --outDir dist/"
+  },
+  "keywords": [
+    "TypeScript",
+    "objects",
+    "utilities",
+    "functions",
+    "deep",
+    "cloning",
+    "property",
+    "manipulation",
+    "filtering",
+    "mapping",
+    "functional",
+    "programming",
+    "immutability",
+    "developer",
+    "tool."
+  ],
+  "author": "Ryarturogi",
+  "license": "MIT",
+  "devDependencies": {
+    "@jest/globals": "^29.3.1",
+    "@types/jest": "^29.2.5",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4"
+  }
+}

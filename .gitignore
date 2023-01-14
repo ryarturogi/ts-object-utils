@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+
+# Dependency directories
+node_modules/
+
+# Build files
+lib/
+demo/
+src/**/*.ts
+
+# Test files
+*.spec.*
+*.test.*
+*.e2e.*
+test/
+demo/
+
+#Config Files
+tsconfig.json
+jest.config.js
+
+# Coverage files
+coverage/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Editor swap and temporary files
+*.swp
+*.tmp
+
+# IDE files
+.vscode/
+.idea/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
