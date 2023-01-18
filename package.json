@@ -1,6 +1,6 @@
 {
   "name": "ts-object-utilities",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Powerful and versatile library for working with objects in TypeScript that provides a wide range of utility functions for deep cloning, property manipulation, filtering, mapping and more",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
