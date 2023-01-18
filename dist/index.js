@@ -45,7 +45,7 @@ function getPathValue(obj, path) {
     const parts = path.split('.');
     let current = obj;
     for (let i = 0; i < parts.length; i++) {
-        if (current[parts[i]] === undefined) {
+        if (!current.hasOwnProperty(parts[i])) {
             return undefined;
         }
         current = current[parts[i]];
@@ -59,7 +59,7 @@ function setPathValue(obj, path, value) {
     const parts = path.split('.');
     let current = obj;
     for (let i = 0; i < parts.length - 1; i++) {
-        if (current[parts[i]] === undefined) {
+        if (!current.hasOwnProperty(parts[i])) {
             current[parts[i]] = {};
         }
         current = current[parts[i]];
@@ -75,7 +75,7 @@ function removePath(obj, path) {
     const parts = path.split('.');
     let current = obj;
     for (let i = 0; i < parts.length - 1; i++) {
-        if (current[parts[i]] === undefined) {
+        if (!current.hasOwnProperty(parts[i])) {
             return obj;
         }
         current = current[parts[i]];
@@ -876,7 +876,7 @@ function setNested(obj, path, value) {
     const pathArray = path.split('.');
     let current = obj;
     for (let i = 0; i < pathArray.length - 1; i++) {
-        if (!current[pathArray[i]]) {
+        if (!Object.prototype.hasOwnProperty.call(current, pathArray[i])) {
             current[pathArray[i]] = {};
         }
         current = current[pathArray[i]];
